@@ -26,11 +26,17 @@
 #include "gpio_pcm_config.h"
 #include "esp_console.h"
 #include "app_hf_msg_set.h"
-
+#define NROWS 11
+#define BUFFSIZE 1024 
+static void file_init(char *filename);
 esp_bd_addr_t peer_addr = {0};
 static char peer_bdname[ESP_BT_GAP_MAX_BDNAME_LEN + 1];
 static uint8_t peer_bdname_len;
-
+static bool FILE_CHANGED = true;
+static const char *TAG = "ETS";
+static bool WHICH_FILE = false;
+static bool RUNNING = true;
+// static _lock_t lck_file;
 static const char remote_device_name[] = "ESP_HFP_AG";
 
 static bool get_name_from_eir(uint8_t *eir, char *bdname, uint8_t *bdname_len)
@@ -150,8 +156,63 @@ enum {
 /* handler for bluetooth stack enabled events */
 static void bt_hf_client_hdl_stack_evt(uint16_t event, void *p_param);
 
+static void file_init(char *filename)
+{
+	FILE *fp = fopen(filename, "wb");
+
+	if(fp == NULL){
+		RUNNING = false;
+		ESP_LOGE(TAG, "Error creating or initializing file %s", filename);
+		return;
+	}
+
+	ESP_LOGI(TAG, "File %s initialized", filename);
+
+	fclose(fp);
+}
+
+static void send_data()
+{
+	FILE *fp = NULL;
+	if(WHICH_FILE){
+		WHICH_FILE = false;
+		FILE_CHANGED = true;
+		fp = fopen("implementation_fiir.wav", "r");
+		if(fp == NULL){
+			RUNNING = false;
+			return;
+		}
+	}
+	else{
+		WHICH_FILE = true;
+		FILE_CHANGED = true;
+		fp = fopen(fp, "r");
+		if(fp == NULL){
+			RUNNING = false;
+			return;
+		}
+	}
+
+
+
+
+	//fscanf(fp);
+
+		//else -> i need at least one more cycle to finish to read the file
+	
+
+	if(WHICH_FILE){
+		fclose(fp);
+	}
+	else{
+		fclose(fp);
+	}
+
+}
+
 void app_main(void)
 {
+    file_init("implementation_fiir.wav");
     /* Initialize NVS — it is used to store PHY calibration data */
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
@@ -220,6 +281,7 @@ void app_main(void)
 
     // start console REPL
     ESP_ERROR_CHECK(esp_console_start_repl(repl));
+    send_data();
 }
 
 
@@ -258,3 +320,5 @@ static void bt_hf_client_hdl_stack_evt(uint16_t event, void *p_param)
         break;
     }
 }
+
+
