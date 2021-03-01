@@ -2,6 +2,7 @@
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/queue.h"
 #include "esp_spi_flash.h"
 #include "esp_err.h"
 #include "esp_log.h"
@@ -14,9 +15,11 @@
 #include "driver/gpio.h"
 #include "esp_system.h"
 #include <math.h>
+#include "driver/gpio.h"
 
 #if CONFIG_IDF_TARGET_ESP32
 
+#define GPIO_INPUT_IO_0 36
 static const char* TAG = "ad/da";
 #define V_REF   1100
 #define ADC1_TEST_CHANNEL (ADC1_CHANNEL_7)
@@ -35,9 +38,9 @@ static const char* TAG = "ad/da";
 //i2s number
 #define EXAMPLE_I2S_NUM           (0)
 //i2s sample rate
-#define EXAMPLE_I2S_SAMPLE_RATE   (36000)
+#define EXAMPLE_I2S_SAMPLE_RATE   (16000)
 //i2s data bits
-#define EXAMPLE_I2S_SAMPLE_BITS   (16)
+#define EXAMPLE_I2S_SAMPLE_BITS   (32)
 //enable display buffer for debug
 #define EXAMPLE_I2S_BUF_DEBUG     (0)
 //I2S read buffer length
@@ -62,16 +65,36 @@ static const char* TAG = "ad/da";
 #define I2S_NUM         (0)
 #define WAVE_FREQ_HZ    (200)
 #define PI              (3.14159265)
+#define doutPin            33
+//#include "AudioOutput.h"
 // #define I2S_BCK_IO      (GPIO_NUM_13)
 // #define I2S_WS_IO       (GPIO_NUM_15)
 // #define I2S_DO_IO       (GPIO_NUM_21)
 // #define I2S_DI_IO       (-1)
 
+int i2s_num = 0;
 #define SAMPLE_PER_CYCLE (SAMPLE_RATE/WAVE_FREQ_HZ)
 
 /**
  * @brief I2S ADC/DAC mode init.
  */
+
+
+
+void SetPinout(void)
+{
+  #ifdef ESP32
+    if (output_mode == INTERNAL_DAC || output_mode == INTERNAL_PDM)
+      return false; // Not allowed
+
+    i2s_pin_config_t pins = {
+        .data_out_num = 33,
+    i2s_set_pin((i2s_port_t)portNo, &pins);
+    return true;
+  #else
+    return false;
+  #endif
+}
 void example_i2s_init(void)
 {
      int i2s_num = EXAMPLE_I2S_NUM;
@@ -84,8 +107,10 @@ void example_i2s_init(void)
         .intr_alloc_flags = 0,
         .dma_buf_count = 2,
         .dma_buf_len = 1024,
-        .use_apll = 1,
+        .use_apll = 1,  // Serial Data (SD)
+
      };
+
      //install and start i2s driver
      i2s_driver_install(i2s_num, &i2s_config, 0, NULL);
      //init DAC pad
@@ -94,6 +119,7 @@ void example_i2s_init(void)
      i2s_set_adc_mode(I2S_ADC_UNIT, I2S_ADC_CHANNEL);
    //  i2s_write(i2s_num, EXAMPLE_I2S_SAMPLE_RATE, ((EXAMPLE_I2S_SAMPLE_BITS+8)/16)*SAMPLE_PER_CYCLE*4, 0, 100);
 }
+
 
 /*
  * @brief erase flash for recording
@@ -239,6 +265,7 @@ void example_i2s_adc_dac(void*arg)
         flash_wr_size += i2s_read_len;
         esp_rom_printf("Sound recording %u%%\n", flash_wr_size * 100 / FLASH_RECORD_SIZE);
     }
+    
     i2s_adc_disable(EXAMPLE_I2S_NUM);
     free(i2s_read_buff);
     i2s_read_buff = NULL;
@@ -283,6 +310,9 @@ void example_i2s_adc_dac(void*arg)
     vTaskDelete(NULL);
 }
 
+
+
+
 void adc_read_task(void* arg)
 {
     adc1_config_width(ADC_WIDTH_12Bit);
@@ -303,7 +333,6 @@ esp_err_t app_main(void)
     esp_log_level_set("I2S", ESP_LOG_INFO);
     xTaskCreate(example_i2s_adc_dac, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
     xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
-    
     return ESP_OK;
 }
 #endif
