@@ -275,39 +275,39 @@ void example_i2s_adc_dac(void*arg)
 
     uint8_t* flash_read_buff = (uint8_t*) calloc(i2s_read_len, sizeof(char));
     uint8_t* i2s_write_buff = (uint8_t*) calloc(i2s_read_len, sizeof(char));
-    while (1) {
+//     while (1) {
 
-        //3. Read flash and replay the sound via DAC
-#if REPLAY_FROM_FLASH_EN
-        for (int rd_offset = 0; rd_offset < flash_wr_size; rd_offset += FLASH_SECTOR_SIZE) {
-            //read I2S(ADC) original data from flash
-            esp_partition_read(data_partition, rd_offset, flash_read_buff, FLASH_SECTOR_SIZE);
-            //process data and scale to 8bit for I2S DAC.
-            example_i2s_adc_data_scale(i2s_write_buff, flash_read_buff, FLASH_SECTOR_SIZE);
-            //send data
-            i2s_write(EXAMPLE_I2S_NUM, i2s_write_buff, FLASH_SECTOR_SIZE, &bytes_written, portMAX_DELAY);
-            printf("playing: %d %%\n", rd_offset * 100 / flash_wr_size);
-        }
-#endif
+//         //3. Read flash and replay the sound via DAC
+// #if REPLAY_FROM_FLASH_EN
+//         for (int rd_offset = 0; rd_offset < flash_wr_size; rd_offset += FLASH_SECTOR_SIZE) {
+//             //read I2S(ADC) original data from flash
+//             esp_partition_read(data_partition, rd_offset, flash_read_buff, FLASH_SECTOR_SIZE);
+//             //process data and scale to 8bit for I2S DAC.
+//             example_i2s_adc_data_scale(i2s_write_buff, flash_read_buff, FLASH_SECTOR_SIZE);
+//             //send data
+//             i2s_write(EXAMPLE_I2S_NUM, i2s_write_buff, FLASH_SECTOR_SIZE, &bytes_written, portMAX_DELAY);
+//             printf("playing: %d %%\n", rd_offset * 100 / flash_wr_size);
+//         }
+// #endif
 
-        //4. Play an example audio file(file format: 8bit/16khz/single channel)
-        printf("Playing file example: \n");
-        int offset = 0;
-        int tot_size = sizeof(audio_table);
-        example_set_file_play_mode();
-        while (offset < tot_size) {
-            int play_len = ((tot_size - offset) > (4 * 1024)) ? (4 * 1024) : (tot_size - offset);
-            int i2s_wr_len = example_i2s_dac_data_scale(i2s_write_buff, (uint8_t*)(audio_table + offset), play_len);
-            i2s_write(EXAMPLE_I2S_NUM, i2s_write_buff, i2s_wr_len, &bytes_written, portMAX_DELAY);
-            offset += play_len;
-            example_disp_buf((uint8_t*) i2s_write_buff, 32);
-        }
-        vTaskDelay(100 / portTICK_PERIOD_MS);
-        example_reset_play_mode();
-    }
-    free(flash_read_buff);
-    free(i2s_write_buff);
-    vTaskDelete(NULL);
+//         //4. Play an example audio file(file format: 8bit/16khz/single channel)
+//         printf("Playing file example: \n");
+//         int offset = 0;
+//         int tot_size = sizeof(audio_table);
+//         example_set_file_play_mode();
+//         while (offset < tot_size) {
+//             int play_len = ((tot_size - offset) > (4 * 1024)) ? (4 * 1024) : (tot_size - offset);
+//             int i2s_wr_len = example_i2s_dac_data_scale(i2s_write_buff, (uint8_t*)(audio_table + offset), play_len);
+//             i2s_write(EXAMPLE_I2S_NUM, i2s_write_buff, i2s_wr_len, &bytes_written, portMAX_DELAY);
+//             offset += play_len;
+//             example_disp_buf((uint8_t*) i2s_write_buff, 32);
+//         }
+//         vTaskDelay(100 / portTICK_PERIOD_MS);
+//         example_reset_play_mode();
+//     }
+//     free(flash_read_buff);
+//     free(i2s_write_buff);
+//     vTaskDelete(NULL);
 }
 
 
@@ -329,9 +329,10 @@ void adc_read_task(void* arg)
 
 esp_err_t app_main(void)
 {
+    SetPinout();   
     example_i2s_init();
     esp_log_level_set("I2S", ESP_LOG_INFO);
-    xTaskCreate(example_i2s_adc_dac, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
+    xTaskCreate(33, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
     xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
     return ESP_OK;
 }
