@@ -23,7 +23,7 @@
 static const char* TAG = "ad/da";
 #define V_REF   1100
 #define ADC1_TEST_CHANNEL (ADC1_CHANNEL_7)
-
+//static const esp_partition_type_t APP_PARTITION_TYPE_A = (esp_partition_type_t)0x40;
 #define PARTITION_NAME   "storage"
 
 /*---------------------------------------------------------------
@@ -65,7 +65,7 @@ static const char* TAG = "ad/da";
 #define I2S_NUM         (0)
 #define WAVE_FREQ_HZ    (200)
 #define PI              (3.14159265)
-#define doutPin            33
+#define doutPin            36
 //#include "AudioOutput.h"
 // #define I2S_BCK_IO      (GPIO_NUM_13)
 // #define I2S_WS_IO       (GPIO_NUM_15)
@@ -73,6 +73,7 @@ static const char* TAG = "ad/da";
 // #define I2S_DI_IO       (-1)
 
 int i2s_num = 0;
+
 #define SAMPLE_PER_CYCLE (SAMPLE_RATE/WAVE_FREQ_HZ)
 
 /**
@@ -81,20 +82,7 @@ int i2s_num = 0;
 
 
 
-void SetPinout(void)
-{
-  #ifdef ESP32
-    if (output_mode == INTERNAL_DAC || output_mode == INTERNAL_PDM)
-      return false; // Not allowed
 
-    i2s_pin_config_t pins = {
-        .data_out_num = 33,
-    i2s_set_pin((i2s_port_t)portNo, &pins);
-    return true;
-  #else
-    return false;
-  #endif
-}
 void example_i2s_init(void)
 {
      int i2s_num = EXAMPLE_I2S_NUM;
@@ -249,7 +237,7 @@ void example_i2s_adc_dac(void*arg)
     example_erase_flash();
     int i2s_read_len = EXAMPLE_I2S_READ_LEN;
     int flash_wr_size = 0;
-    size_t bytes_read, bytes_written;
+   size_t bytes_read, bytes_written;
 
     //2. Record audio from ADC and save in flash
 #if RECORD_IN_FLASH_EN
@@ -307,7 +295,7 @@ void example_i2s_adc_dac(void*arg)
 //     }
 //     free(flash_read_buff);
 //     free(i2s_write_buff);
-//     vTaskDelete(NULL);
+//    vTaskDelete(NULL);
 }
 
 
@@ -328,14 +316,14 @@ void adc_read_task(void* arg)
 }
 
 esp_err_t app_main(void)
-{
-    SetPinout();   
+{ 
     example_i2s_init();
     esp_log_level_set("I2S", ESP_LOG_INFO);
-    xTaskCreate(33, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
+    xTaskCreate(example_i2s_adc_dac, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
     xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
     return ESP_OK;
 }
 #endif
+
 
 
