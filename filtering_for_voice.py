@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*- 
 
+'''
+Created for the shield project of the ANS Connect startup
+by
+Valier-Brasier Laura 
+'''
 
 
 from pydub import AudioSegment
@@ -9,14 +14,16 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 from scipy.io.wavfile import write
 from tempfile import mktemp
+from numpy import array, diff, where, split
 import numpy as np
+import soundfile
 from scipy.fftpack import fft,fftfreq
 from scipy.signal import lfilter, butter
 import wave #enable to get framerate
 from scipy.signal import wiener
 from scipy.signal import remez
 from scipy import signal
-import pyaudio
+# import pyaudio
 remez(11, [0.1, 0.4], [1], type='hilbert')
 
 
@@ -33,6 +40,9 @@ samples = data.shape[0]
 limit = int((len(data)/2)-1)
 print('SAMPLES = ', samples)
 print('FS = ', FS)
+number_samples = len(data)
+duration = round(number_samples/FS,2)
+print('AUDIO DURATION : {0}s'.format(duration))
 
 
 pre_emphasis = 0.97
@@ -46,6 +56,58 @@ time_sig = np.linspace(1,len(data))
 # print('time',len(time_sig))
 
 
+def findPeak(magnitude_values, noise_level=2000):
+    
+    splitter = 0
+    # zero out low values in the magnitude array to remove noise (if any)
+    magnitude_values = np.asarray(magnitude_values)        
+    low_values_indices = magnitude_values < noise_level  # Where values are low
+    magnitude_values[low_values_indices] = 0  # All low values will be zero out
+    
+    indices = []
+    
+    flag_start_looking = False
+    
+    both_ends_indices = []
+    
+    length = len(magnitude_values)
+    for i in range(length):
+        if magnitude_values[i] != splitter:
+            if not flag_start_looking:
+                flag_start_looking = True
+                both_ends_indices = [0, 0]
+                both_ends_indices[0] = i
+        else:
+            if flag_start_looking:
+                flag_start_looking = False
+                both_ends_indices[1] = i
+                # add both_ends_indices in to indices
+                indices.append(both_ends_indices)
+                
+    return indices
+
+def extractFrequency(indices, freq_threshold=200):
+    
+    extracted_freqs = []
+    
+    for index in indices:
+        freqs_range = freqs[index[0]: index[1]]
+        avg_freq = round(np.average(freqs_range))
+        
+        if avg_freq not in extracted_freqs:
+            extracted_freqs.append(avg_freq)
+
+    # group extracted frequency by nearby=freq_threshold (tolerate gaps=freq_threshold)
+    group_similar_values = split(extracted_freqs, where(diff(extracted_freqs) > freq_threshold)[0]+1 )
+    
+    # calculate the average of similar value
+    extracted_freqs = []
+    for group in group_similar_values:
+        extracted_freqs.append(round(np.average(group)))
+    
+    print("freq_components", extracted_freqs)
+    return extracted_freqs
+
 # --------------------------plot all frequency spectrum
 
 
@@ -56,6 +118,16 @@ freqs = fftfreq(samples,1/FS)
 print("FREQS", freqs)
 print('test pour freqs cibles', freqs)
 print('frequencies = ',freqs.shape)
+# freq_bins = arange(number_samples) * audio_samples/number_samples
+# print('Frequency Length: ', len(freq_bins))
+# print('Frequency bins: ', freq_bins)
+normalization_data = datafft/FS
+magnitude_values = normalization_data[range(len(datafft)//2)]
+magnitude_values = np.abs(magnitude_values)
+indices = findPeak(magnitude_values=magnitude_values, noise_level=200)
+frequencies = extractFrequency(indices=indices)
+print("**********************KOKO-DA!!!!!!!!!!!!!!!*****")
+print("frequencies:", frequencies)
 plt.subplot(2,1,1)
 plt.plot(freqs, fftabs)
 plt.title("Frequency spectrum of %s" % wname)
@@ -113,8 +185,4 @@ filtered_voice = np.apply_along_axis(bandpass_filter_voice, 0, data).astype('int
 #for the  voice sound
 wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'filtered_for_voice'), FS, filtered_voice)
 
-#####################################################################################################################################################################################################
-######################################################################## TRYING REDUCING NOISES ##########################################################################"
-# 
-# 
-#
+
