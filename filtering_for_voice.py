@@ -108,7 +108,8 @@ def extractFrequency(indices, freq_threshold=200):
     print("freq_components", extracted_freqs)
     return extracted_freqs
 
-# --------------------------plot all frequency spectrum
+
+# -------------------------- FFT calculs 
 
 
 datafft = fft(data)
@@ -128,6 +129,17 @@ indices = findPeak(magnitude_values=magnitude_values, noise_level=200)
 frequencies = extractFrequency(indices=indices)
 print("**********************KOKO-DA!!!!!!!!!!!!!!!*****")
 print("frequencies:", frequencies)
+
+
+
+# --------------------------Remaining volume in the tear gas sprayer tank
+tps = 1/int(frequencies[0])
+print(tps)
+volume = 60/frequencies[0]
+
+print('REMAINING VOLUME : {0}mL'.format(volume))
+# -------------------------Plot of the FFT signal
+
 plt.subplot(2,1,1)
 plt.plot(freqs, fftabs)
 plt.title("Frequency spectrum of %s" % wname)
