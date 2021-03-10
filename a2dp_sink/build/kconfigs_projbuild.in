@@ -1,5 +1,0 @@
-source "/home/laura/esp/esp-idf/components/app_update/Kconfig.projbuild"
-source "/home/laura/esp/esp-idf/components/bootloader/Kconfig.projbuild"
-source "/home/laura/esp/esp-idf/components/esptool_py/Kconfig.projbuild"
-source "/home/laura/esp/esp-idf/components/partition_table/Kconfig.projbuild"
-source "/home/laura/esp/a2dp_sink/main/Kconfig.projbuild"
