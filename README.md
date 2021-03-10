@@ -3,12 +3,12 @@
 ## ENV activation
 
 
-* cd projets10/bin/
-* . activate 
+$ cd projets10/bin/
+$ . activate 
 
 
 ## ENV deactivation
-* deactivate
+$ deactivate
 
 ## Using ESP-IDF
 * In terminal
@@ -38,23 +38,23 @@ $ idf.py -p /dev/ttyUSB0  flash monitor
 
 # WIRING WITH THE I2S MODULE, ESP32, THE MIC
 
-## ----------------------GND MIC - GND I2S - GND ESP32
+### ----------------------GND MIC - GND I2S - GND ESP32
 ##
-## ----------------------5V ESP32 - 5V I2S - Resistor
+### ----------------------5V ESP32 - 5V I2S - Resistor
 ##
-## ----------------------MIC (+) - ESP32 GPIO 36 (PIN VP) - Resistor  
+### ----------------------MIC (+) - ESP32 GPIO 36 (PIN VP) - Resistor  
 ##
-## ----------------------TX ESP32 - RX I2S Module
+### ----------------------TX ESP32 - RX I2S Module
 ##
-## ----------------------RX ESP32 - TX I2S Module
+### ----------------------RX ESP32 - TX I2S Module
 ##
 ##
 
 
 
-## ---Configuration of th edevelopment framwork
-## Partition Table ---> Partition Table (Custom partition table CSV) -->Custom Partition table CVS
-##
+## ---Configuration of the development framework
+## * Partition Table ---> Partition Table (Custom partition table CSV) -->Custom Partition table CVS ---> Copy and paste the name of the csv file in your working folder
+## * Serial Flasher Configuration ---> Set the flash size to 4Mb
 ##
 ##
 ##
