@@ -30,7 +30,8 @@ remez(11, [0.1, 0.4], [1], type='hilbert')
 # file download from yt and convertion from w4a to wav via convertio
 # 'Son-test-lacrymo.wav' first test with wind
 #digital testing with audio file took from the voice recorder of a smartphone
-wname = 'Test_environ_1m_avec_voiture.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
+#test for remaining volume in the tank with 'Calcul-volume.wav'
+wname = 'Test-voix-ecart.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
  # convert to wav
 FS, data = wavfile.read(wname)  # read wav file, FS = samplerate
 wf = wave.open(wname,'rb')
@@ -129,15 +130,23 @@ indices = findPeak(magnitude_values=magnitude_values, noise_level=200)
 frequencies = extractFrequency(indices=indices)
 print("**********************KOKO-DA!!!!!!!!!!!!!!!*****")
 print("frequencies:", frequencies)
-
+# tps = 1/int(frequencies)
+#print(tps)
 
 
 # --------------------------Remaining volume in the tear gas sprayer tank
-tps = 1/int(frequencies[0])
-print(tps)
-volume = 60/frequencies[0]
+for temps in range(0,int(duration)):
+   
+    flow_rate = 30/duration
+    print(temps)
+    # print(flow_rate)
+#Regarding the volume of the tear gas sprayer test which is 30 mL, and the time measure until 
+# the ta,k is empty, which about 7 seconds we can measure the volume flow rate which will be 4.2 mL/s 
+    volume = flow_rate*temps/1000
+    volume2 = flow_rate/frequencies[0]
 
 print('REMAINING VOLUME : {0}mL'.format(volume))
+print('VERIFICATION REMAINING VOLUME : {0}mL'.format(volume2))
 # -------------------------Plot of the FFT signal
 
 plt.subplot(2,1,1)
