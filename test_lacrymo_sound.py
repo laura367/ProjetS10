@@ -23,7 +23,7 @@ from scipy import signal
 # file download from yt and convertion from w4a to wav via convertio
 # 'Son-test-lacrymo.wav' first test with wind
 #digital testing with audio file took from the voice recorder of a smartphone
-wname = 'Test_environ_1m_avec_voiture.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
+wname = 'Calcul-volume.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
  # convert to wav
 FS, data = wavfile.read(wname)  # read wav file, FS = samplerate
 wf = wave.open(wname,'rb')
@@ -113,38 +113,38 @@ def bandpass_filter_voice(buffer):
 filtered_sprayer = np.apply_along_axis(bandpass_filter_voice, 0, data).astype('int16')
 
 #for the  voice sound
-#wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'filtered_for_sprayer_with_car'), FS, filtered_voice)
+wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'secouage_for_lacrymo'), FS, filtered_sprayer)
 
 
 ####################################################################################################################################################################################################
 
-lowcut_voice = 500
-highcut_voice = 3000
-FRAME_RATE = framerate
+# lowcut_voice = 500
+# highcut_voice = 3000
+# FRAME_RATE = framerate
 
 
-def butter_bandpass_voice(lowcut, highcut, fs, order=5):
-    nyq = 0.5 * FS
-    low_voice = lowcut_voice / nyq
-    high_voice = highcut_voice / nyq
-    b2, a2 = butter(order, [low_voice, high_voice], btype='bandpass')
-    return b2, a2
+# def butter_bandpass_voice(lowcut, highcut, fs, order=5):
+#     nyq = 0.5 * FS
+#     low_voice = lowcut_voice / nyq
+#     high_voice = highcut_voice / nyq
+#     b2, a2 = butter(order, [low_voice, high_voice], btype='bandpass')
+#     return b2, a2
 
-def butter_bandpass_filter_voice(data, lowcut, highcut, fs, order=5):
-    b2, a2 = butter_bandpass_voice(lowcut_voice, highcut_voice, FS, order=order)
-    y = lfilter(b2, a2, data)
-    return y
+# def butter_bandpass_filter_voice(data, lowcut, highcut, fs, order=5):
+#     b2, a2 = butter_bandpass_voice(lowcut_voice, highcut_voice, FS, order=order)
+#     y = lfilter(b2, a2, data)
+#     return y
 
-def bandpass_filter_voice(buffer):
-    return butter_bandpass_filter_voice(data, lowcut_voice, highcut_voice, FRAME_RATE, order=5)
-
-
-filtered_voice = np.apply_along_axis(bandpass_filter_voice, 0, data).astype('int16')
-
-#for the  voice sound
-# wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'filtered_for_sprayer'), FS, filtered_voice)
+# def bandpass_filter_voice(buffer):
+#     return butter_bandpass_filter_voice(data, lowcut_voice, highcut_voice, FRAME_RATE, order=5)
 
 
+# filtered_voice = np.apply_along_axis(bandpass_filter_voice, 0, data).astype('int16')
+
+# #for the  voice sound
+# # wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'filtered_for_sprayer'), FS, filtered_voice)
 
 
-wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav",f'coucou'),FRAME_RATE,fgust)
+
+
+# wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav",f'coucou'),FRAME_RATE,fgust)
