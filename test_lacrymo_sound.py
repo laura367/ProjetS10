@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*- 
 
+'''
+Created for the shield project of the ANS Connect startup
+by
+Valier-Brasier Laura 
+'''
 
 
 from pydub import AudioSegment

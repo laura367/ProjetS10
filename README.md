@@ -34,6 +34,8 @@ $ idf.py build
 ## flash the esp and show the monitor to see the result
 $ idf.py -p /dev/ttyUSB0  flash monitor
 
+* The monitor enble to see the outpout data and the code prints
+* to quit the monitor ---> Do CTRL + ALT GR + ]
 
 
 # WIRING WITH THE I2S MODULE, ESP32, THE MIC
@@ -52,9 +54,9 @@ $ idf.py -p /dev/ttyUSB0  flash monitor
 
 
 
-## ---Configuration of the development framework
-## * Partition Table ---> Partition Table (Custom partition table CSV) -->Custom Partition table CVS ---> Copy and paste the name of the csv file in your working folder
-## * Serial Flasher Configuration ---> Set the flash size to 4Mb
+## Configuration of the development framework
+* Partition Table ---> Partition Table (Custom partition table CSV) -->Custom Partition table CVS ---> Copy and paste the name of the csv file in your working folder
+* Serial Flasher Configuration ---> Set the flash size to 4Mb
 ##
 ##
 ##
