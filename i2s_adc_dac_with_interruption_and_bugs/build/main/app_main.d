@@ -101,7 +101,9 @@ app_main.o: /home/laura/esp/i2s_adc_dac/main/app_main.c \
  /home/laura/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h \
  /home/laura/esp/esp-idf/components/hal/include/hal/adc_types.h \
  /home/laura/esp/i2s_adc_dac/main/audio_example_file.h \
- /home/laura/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h
+ /home/laura/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h \
+ /home/laura/esp/esp-idf/components/soc/esp32/include/soc/timer_group_struct.h \
+ /home/laura/esp/esp-idf/components/soc/esp32/include/soc/timer_group_reg.h
 
 /home/laura/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h:
 
@@ -308,4 +310,8 @@ app_main.o: /home/laura/esp/i2s_adc_dac/main/app_main.c \
 /home/laura/esp/i2s_adc_dac/main/audio_example_file.h:
 
 /home/laura/esp/esp-idf/components/esp_adc_cal/include/esp_adc_cal.h:
+
+/home/laura/esp/esp-idf/components/soc/esp32/include/soc/timer_group_struct.h:
+
+/home/laura/esp/esp-idf/components/soc/esp32/include/soc/timer_group_reg.h:
 /home/laura/esp/i2s_adc_dac/main/./app_main.c:

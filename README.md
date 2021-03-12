@@ -11,6 +11,7 @@ $ . activate
 $ deactivate
 
 ## Using ESP-IDF
+* For the installation follow the following link : https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html
 * In terminal
 
 $ cd
@@ -28,19 +29,21 @@ $ exit
 $ cd ~/esp/
 ## All the validate folders are here
 ## To make the acquisition do
-$ cd i2s_adc_dac/
+$ cd i2s_adc_dac_with_interruption_and_bugs/
 ## build the project
 $ idf.py build
 ## flash the esp and show the monitor to see the result
+$ make flash monitor 
+### Or you can do ---> But the first solution is better (make => verify and compute then flash and show the monitor) 
 $ idf.py -p /dev/ttyUSB0  flash monitor
 
 * The monitor enble to see the outpout data and the code prints
 * to quit the monitor ---> Do CTRL + ALT GR + ]
 
-
+#
 # WIRING WITH THE I2S MODULE, ESP32, THE MIC
 
-### ----------------------GND MIC - GND I2S - GND ESP32
+### ----------------------GND MIC - GND I2S - GND ESP32 - GND BTN - LED RESISTOR - LED BUTTON
 ##
 ### ----------------------5V ESP32 - 5V I2S - Resistor
 ##
@@ -50,7 +53,9 @@ $ idf.py -p /dev/ttyUSB0  flash monitor
 ##
 ### ----------------------RX ESP32 - TX I2S Module
 ##
+## ----------------------ESP32 GPIO 22 LED - RESISTOR  
 ##
+## ----------------------ESP32 GPIO 15 BUTTON - RESISTOR 
 
 
 

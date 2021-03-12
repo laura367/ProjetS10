@@ -17,6 +17,12 @@
 #include <math.h>
 #include "driver/gpio.h"
 
+// Might Have an issue during the make flash monitor
+//  Task watchdog got triggered
+// Can be resolved by follwing these intrcutions https://esp32.com/viewtopic.php?t=6304
+#include "soc/timer_group_struct.h"
+#include "soc/timer_group_reg.h"
+
 #if CONFIG_IDF_TARGET_ESP32
 
 #define GPIO_INPUT_IO_0 36  // GPIO VP = 36 for data output
@@ -27,7 +33,7 @@ static const char* TAG = "ad/da";
 #define PARTITION_NAME   "storage"
 
 /*---------------------------------------------------------------
-                            EXAMPLE CONFIG
+                            CONFIGURATION
 ---------------------------------------------------------------*/
 //enable record sound and save in flash
 #define RECORD_IN_FLASH_EN        (1)
@@ -85,6 +91,10 @@ static int b_letInt = 0; //a flag: 0 = dont let the interrupt happen, 1 = let it
  * @brief I2S ADC/DAC mode init.
  */
 
+/*---------------------------------------------------------------
+                            CONFIGURATION BTN PUSHED
+---------------------------------------------------------------*/
+
 void triggered_isr(void* instance)
 {
     b_push = 1;
@@ -92,6 +102,10 @@ void triggered_isr(void* instance)
     gpio_intr_disable(LED);
 }
 
+
+/*---------------------------------------------------------------
+                            INITIALISATION
+---------------------------------------------------------------*/
 
 void example_i2s_init(void)
 {
@@ -289,7 +303,7 @@ void adc_read_task(void* arg)
         uint32_t voltage;
         esp_adc_cal_get_voltage(ADC1_TEST_CHANNEL, &characteristics, &voltage);
         ESP_LOGI(TAG, "%d mV", voltage);
-        vTaskDelay(200 / portTICK_RATE_MS);
+        vTaskDelay(5000); //ms
     }
 }
 
@@ -317,7 +331,7 @@ esp_err_t app_main(void)
     tempo = esp_timer_get_time();
     gpio_set_level(LED, 1);
     StateBtn = 0;
-    while (true){
+    for (;;){
         if(esp_timer_get_time() - time > 500000 && StateBtn == 0)
 		{
 		time = esp_timer_get_time();
@@ -332,6 +346,7 @@ esp_err_t app_main(void)
 		gpio_set_level(LED, 1);
 
 		StateLed = 0;
+        vTaskDelay(2000); 
 		}
 
 
@@ -344,6 +359,7 @@ esp_err_t app_main(void)
             esp_log_level_set("I2S", ESP_LOG_INFO);
             xTaskCreate(example_i2s_adc_dac, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
             xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
+            vTaskDelay(3000); 
             }
 
         //Check the timer for the button led. If greater than 1s, then lights off and let new interrupts
