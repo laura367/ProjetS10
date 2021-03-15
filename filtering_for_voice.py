@@ -27,7 +27,7 @@ from scipy import signal
 remez(11, [0.1, 0.4], [1], type='hilbert')
 
 
-# file download from yt and convertion from w4a to wav via convertio
+
 # 'Son-test-lacrymo.wav' first test with wind
 #digital testing with audio file took from the voice recorder of a smartphone
 #test for remaining volume in the tank with 'Calcul-volume.wav'
