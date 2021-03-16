@@ -1,4 +1,4 @@
-# Install script for directory: /home/laura/esp/i2s_adc_dac/main
+# Install script for directory: /home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

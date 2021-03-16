@@ -1,4 +1,4 @@
-/* * Data converted from /home/laura/esp/i2s_adc_dac/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

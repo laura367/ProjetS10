@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "/home/laura/esp/esp-idf/components/bootloader/subproject",
-    "build_dir":          "/home/laura/esp/i2s_adc_dac/build/bootloader",
-    "config_file":        "/home/laura/esp/i2s_adc_dac/sdkconfig",
+    "build_dir":          "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac/build/bootloader",
+    "config_file":        "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",
