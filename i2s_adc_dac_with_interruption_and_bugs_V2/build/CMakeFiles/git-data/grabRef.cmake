@@ -15,10 +15,10 @@
 
 set(HEAD_HASH)
 
-file(READ "/home/laura/esp/i2s_adc_dac/build/CMakeFiles/git-data/HEAD" HEAD_CONTENTS LIMIT 1024)
+file(READ "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/git-data/HEAD" HEAD_CONTENTS LIMIT 1024)
 
 string(STRIP "${HEAD_CONTENTS}" HEAD_CONTENTS)
-set(GIT_DIR "/home/laura/esp/esp-idf/.git")
+set(GIT_DIR "/home/laura/Bureau/ProjetS10/ProjetS10/.git")
 # handle git-worktree
 if(EXISTS "${GIT_DIR}/commondir")
 	file(READ "${GIT_DIR}/commondir" GIT_DIR_NEW LIMIT 1024)
@@ -34,17 +34,17 @@ if(HEAD_CONTENTS MATCHES "ref")
 	# named branch
 	string(REPLACE "ref: " "" HEAD_REF "${HEAD_CONTENTS}")
 	if(EXISTS "${GIT_DIR}/${HEAD_REF}")
-		configure_file("${GIT_DIR}/${HEAD_REF}" "/home/laura/esp/i2s_adc_dac/build/CMakeFiles/git-data/head-ref" COPYONLY)
+		configure_file("${GIT_DIR}/${HEAD_REF}" "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/git-data/head-ref" COPYONLY)
 	elseif(EXISTS "${GIT_DIR}/logs/${HEAD_REF}")
-		configure_file("${GIT_DIR}/logs/${HEAD_REF}" "/home/laura/esp/i2s_adc_dac/build/CMakeFiles/git-data/head-ref" COPYONLY)
+		configure_file("${GIT_DIR}/logs/${HEAD_REF}" "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/git-data/head-ref" COPYONLY)
 		set(HEAD_HASH "${HEAD_REF}")
 	endif()
 else()
 	# detached HEAD
-	configure_file("${GIT_DIR}/HEAD" "/home/laura/esp/i2s_adc_dac/build/CMakeFiles/git-data/head-ref" COPYONLY)
+	configure_file("${GIT_DIR}/HEAD" "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/git-data/head-ref" COPYONLY)
 endif()
 
 if(NOT HEAD_HASH)
-	file(READ "/home/laura/esp/i2s_adc_dac/build/CMakeFiles/git-data/head-ref" HEAD_HASH LIMIT 1024)
+	file(READ "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/git-data/head-ref" HEAD_HASH LIMIT 1024)
 	string(STRIP "${HEAD_HASH}" HEAD_HASH)
 endif()

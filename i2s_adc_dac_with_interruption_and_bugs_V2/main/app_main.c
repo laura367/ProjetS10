@@ -16,7 +16,8 @@
 #include "esp_system.h"
 #include <math.h>
 #include "driver/gpio.h"
-
+#include "esp_spiffs.h"
+#include "mbedtls/md5.h"
 // Might Have an issue during the make flash monitor
 //  Task watchdog got triggered
 // Can be resolved by follwing these intrcutions https://esp32.com/viewtopic.php?t=6304
@@ -270,7 +271,15 @@ void example_i2s_adc_dac(void*arg)
     i2s_adc_enable(EXAMPLE_I2S_NUM);
     while (flash_wr_size < FLASH_RECORD_SIZE) {
         //read data from I2S bus, in this case, from ADC.
-        i2s_read(EXAMPLE_I2S_NUM, (void*#define EXTRA_SCRIPT    "run_script.py"
+        i2s_read(EXAMPLE_I2S_NUM, (void*) i2s_read_buff, i2s_read_len, &bytes_read, portMAX_DELAY);
+        example_disp_buf((uint8_t*) i2s_read_buff, 64);
+        //save original data from I2S(ADC) into flash.
+        esp_partition_write(data_partition, flash_wr_size, i2s_read_buff, i2s_read_len);
+        flash_wr_size += i2s_read_len;
+        esp_rom_printf("Sound recording %u%%\n", flash_wr_size * 100 / FLASH_RECORD_SIZE);
+    }
+    i2s_adc_disable(EXAMPLE_I2S_NUM);
+    free(i2s_read_buff);
     i2s_read_buff = NULL;
     free(flash_write_buff);
     flash_write_buff = NULL;
@@ -282,9 +291,7 @@ void example_i2s_adc_dac(void*arg)
 
 }
 
-/*---------------------------------------------------------------
-                                READ DATA
----------------------------------------------------------------*/
+
 
 
 void adc_read_task(void* arg)
@@ -300,11 +307,6 @@ void adc_read_task(void* arg)
         vTaskDelay(5000); //ms
     }
 }
-
-
-/*---------------------------------------------------------------
-                                MAIN
----------------------------------------------------------------*/
 
 esp_err_t app_main(void)
 { 
@@ -329,7 +331,6 @@ esp_err_t app_main(void)
     time = esp_timer_get_time();
     tempo = esp_timer_get_time();
     gpio_set_level(LED, 1);
-
     StateBtn = 0;
     for (;;){
         if(esp_timer_get_time() - time > 500000 && StateBtn == 0)
@@ -338,7 +339,7 @@ esp_err_t app_main(void)
 		gpio_set_level(LED, 0);
 
 		StateLed = 1;
-        vTaskDelay(3); 
+        vTaskDelay(3000); 
 		}
 
 	if(esp_timer_get_time() - time > 500000 && StateBtn == 1)
@@ -358,7 +359,7 @@ esp_err_t app_main(void)
             gpio_set_level(LED, 0);
             example_i2s_init();
             esp_log_level_set("I2S", ESP_LOG_INFO);
-            xTaskCreate(example_i2s_adc_dac, "example_i2s_adc_dac", 1024 * 2, NULL, 5, NULL);
+            xTaskCreate(example_i2s_adc_dac, "audio_file", 1024 * 2, NULL, 5, NULL);
             xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
             vTaskDelay(3000); 
             }

@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/laura/esp/i2s_adc_dac/build/bootloader/esp-idf/soc/esp32/cmake_install.cmake")
+  include("/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader/esp-idf/soc/esp32/cmake_install.cmake")
 
 endif()
 

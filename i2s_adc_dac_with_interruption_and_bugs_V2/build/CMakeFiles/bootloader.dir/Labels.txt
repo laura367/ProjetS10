@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-/home/laura/esp/i2s_adc_dac/build/CMakeFiles/bootloader
-/home/laura/esp/i2s_adc_dac/build/CMakeFiles/bootloader.rule
-/home/laura/esp/i2s_adc_dac/build/CMakeFiles/bootloader-complete.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-/home/laura/esp/i2s_adc_dac/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/bootloader
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/bootloader.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/CMakeFiles/bootloader-complete.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
