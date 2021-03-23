@@ -57,7 +57,7 @@
 //I2S built-in ADC unit
 #define I2S_ADC_UNIT              ADC_UNIT_1
 //I2S built-in ADC channel
-#define I2S_ADC_CHANNEL           ADC1_CHANNEL_0
+#define I2S_ADC_CHANNEL           ADC1_CHANNEL_5
 
 //flash record size, for recording 5 seconds' data
 #define FLASH_RECORD_SIZE         (EXAMPLE_I2S_CHANNEL_NUM * EXAMPLE_I2S_SAMPLE_RATE * EXAMPLE_I2S_SAMPLE_BITS / 8 * 5)
