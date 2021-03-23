@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*- 
 
+'''
+Created for the shield project of the ANS Connect startup
+by
+Valier-Brasier Laura 
+'''
 
 
 from pydub import AudioSegment
@@ -17,11 +22,15 @@ from scipy.signal import wiener
 from scipy.signal import remez
 from scipy import signal
 
-
+'''
+You have to put the audio file in the same folder as your python file
+You can work either with wav files or mp3
+Do not forget to change the path when you creating the wav file filtered
+'''
 # 'Son-test-lacrymo.wav' first test with wind
 #digital testing with audio file took from the voice recorder of a smartphone
 # to calculate the remain volume with 'Calcul-volume.wav' 
-wname = 'Test_environ_1m_avec_voiture.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
+wname = 'Test_1m.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
  # convert to wav
 FS, data = wavfile.read(wname)  # read wav file, FS = samplerate
 wf = wave.open(wname,'rb')
@@ -79,4 +88,4 @@ def bandpass_filter_voice(buffer):
 y = wiener(datafft,10,0)
 filtered_voice = np.apply_along_axis(bandpass_filter_voice, 0, y).astype('int16')
 
-wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'test_weiner'), FS, filtered_voice)
+wavfile.write(os.path.join("/home/laura/Bureau/ProjetS10/traitement_wav", f'test_2_for_voice'), FS, filtered_voice)
