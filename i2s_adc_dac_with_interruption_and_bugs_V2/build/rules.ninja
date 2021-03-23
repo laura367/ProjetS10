@@ -1498,7 +1498,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_main
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/bin/cmake -S/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2 -B/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build
+  command = /usr/bin/cmake -S/home/laura/esp/i2s_adc_dac_with_interruption_and_bugs_V2 -B/home/laura/esp/i2s_adc_dac_with_interruption_and_bugs_V2/build
   description = Re-running CMake...
   generator = 1
 

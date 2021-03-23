@@ -1,4 +1,4 @@
-# Install script for directory: /home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2
+# Install script for directory: /home/laura/esp/i2s_adc_dac_with_interruption_and_bugs_V2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/esp-idf/cmake_install.cmake")
+  include("/home/laura/esp/i2s_adc_dac_with_interruption_and_bugs_V2/build/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/laura/Bureau/ProjetS10/ProjetS10/i2s_adc_dac_with_interruption_and_bugs_V2/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/laura/esp/i2s_adc_dac_with_interruption_and_bugs_V2/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

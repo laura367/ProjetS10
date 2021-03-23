@@ -24,7 +24,6 @@
 #include "soc/timer_group_struct.h"
 #include "soc/timer_group_reg.h"
 
-#if CONFIG_IDF_TARGET_ESP32
 
 #define GPIO_INPUT_IO_0 36  // GPIO VP = 36 for data output
 static const char* TAG = "ad/da";
@@ -112,10 +111,15 @@ void example_i2s_init(void)
 {
      int i2s_num = EXAMPLE_I2S_NUM;
      i2s_config_t i2s_config = {
-      .bck_io_num = 26,   // Serial Clock (SCK)
-      .ws_io_num = 25,    // Word Select (WS)
-      .data_out_num = I2S_PIN_NO_CHANGE, // not used (only for speakers)
-      .data_in_num = 33   // Serial Data (SD)
+        .mode = I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN | I2S_MODE_ADC_BUILT_IN,
+        .sample_rate =  EXAMPLE_I2S_SAMPLE_RATE,
+        .bits_per_sample = EXAMPLE_I2S_SAMPLE_BITS,
+        .communication_format = I2S_COMM_FORMAT_STAND_MSB,
+        .channel_format = EXAMPLE_I2S_FORMAT,
+        .intr_alloc_flags = 0,
+        .dma_buf_count = 2,
+        .dma_buf_len = 1024,
+        .use_apll = 1,  // Serial Data (SD)
 
      };
 
@@ -306,10 +310,70 @@ void adc_read_task(void* arg)
 esp_err_t app_main(void)
 { 
     
-    example_i2s_init();
-    esp_log_level_set("I2S", ESP_LOG_INFO);
-    xTaskCreate(example_i2s_adc_dac, "audio_file", 1024 * 2, NULL, 5, NULL);
-    xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
-    vTaskDelay(3000); 
+    unsigned long tempo ;
+    unsigned long time;
+    int StateLed;
+    int StateBtn;
+    gpio_pad_select_gpio(LED);
+    gpio_set_direction(LED, GPIO_MODE_OUTPUT);
+
+    gpio_pad_select_gpio(PUSH_BTN);
+    gpio_set_direction(PUSH_BTN, GPIO_MODE_INPUT);
+    gpio_pullup_en(PUSH_BTN);
+    gpio_pulldown_dis(PUSH_BTN);
+    gpio_set_intr_type(PUSH_BTN, GPIO_INTR_NEGEDGE);
+
+    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+    gpio_isr_handler_add(PUSH_BTN, triggered_isr, (void*) PUSH_BTN);
+    gpio_intr_enable(PUSH_BTN);
+    b_letInt = 1;
+    time = esp_timer_get_time();
+    tempo = esp_timer_get_time();
+    gpio_set_level(LED, 1);
+    StateBtn = 0;
+    for (;;){
+        if(esp_timer_get_time() - time > 500000 && StateBtn == 0)
+		{
+		time = esp_timer_get_time();
+		gpio_set_level(LED, 0);
+
+		StateLed = 1;
+        vTaskDelay(5); 
+		}
+
+	if(esp_timer_get_time() - time > 500000 && StateBtn == 1)
+		{
+		time = esp_timer_get_time();
+		gpio_set_level(LED, 1);
+
+		StateLed = 0;
+        vTaskDelay(5 ); 
+		}
+
+
+        if(b_push)
+            {
+            tempo = esp_timer_get_time();
+            b_push = 0;
+            gpio_set_level(LED, 0);
+            example_i2s_init();
+            esp_log_level_set("I2S", ESP_LOG_INFO);
+            xTaskCreate(example_i2s_adc_dac, "audio_file", 1024 * 2, NULL, 5, NULL);
+            xTaskCreate(adc_read_task, "ADC read task", 2048, NULL, 5, NULL);
+            vTaskDelay(3000); 
+            }
+
+        //Check the timer for the button led. If greater than 1s, then lights off and let new interrupts
+        if(esp_timer_get_time() - tempo > 1000000)
+            {
+            gpio_set_level(LED, 1);
+
+            if(!b_letInt)
+                {
+                b_letInt = 1;
+                }
+            }
+        }
+
     return ESP_OK;
 }

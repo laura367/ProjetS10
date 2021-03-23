@@ -23,8 +23,7 @@ from scipy import signal
 # file download from yt and convertion from w4a to wav via convertio
 # 'Son-test-lacrymo.wav' first test with wind
 #digital testing with audio file took from the voice recorder of a smartphone
-# to calculate the remain volume with 'Calcul-volume.wav' 
-wname = 'Test_environ_1m_avec_voiture.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
+wname = 'Calcul-volume.wav'  # Test-voix-ecart.wav' test with sound taer gas sprayer + wind + human voice + distance of 30 cm
  # convert to wav
 FS, data = wavfile.read(wname)  # read wav file, FS = samplerate
 wf = wave.open(wname,'rb')
