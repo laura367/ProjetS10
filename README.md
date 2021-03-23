@@ -27,7 +27,7 @@ $ deactivate
 * $ exit
 ## Go to the working folder
 * $ cd ~/esp/
-## All the validate folders are here
+## To test the recoring go first in the i2s/ folder then to access to the flash memory work with i2s_adc_dac_with_interruption_and_bugs_V2/ folder
 ## To make the acquisition when the valve opens do
 * $ cd i2s_adc_dac_with_interruption_and_bugs_V2/
 ## build the project
