@@ -29,7 +29,7 @@ $ deactivate
 * $ cd ~/esp/
 ## All the validate folders are here
 ## To make the acquisition when the valve opens do
-* $ cd i2s_adc_dac_with_interruption_and_bugs/
+* $ cd i2s_adc_dac_with_interruption_and_bugs_V2/
 ## build the project
 * $ idf.py build
 ## flash the esp and show the monitor to see the result
@@ -40,22 +40,23 @@ $ deactivate
 * The monitor enble to see the outpout data and the code prints
 * to quit the monitor ---> Do CTRL + ALT GR + ]
 
-#
-# WIRING WITH THE I2S MODULE, ESP32, THE MIC
+## TEST WITH AN ELECTRET MIC
 
-### ----------------------GND MIC - GND I2S - GND ESP32 - GND BTN - LED RESISTOR - LED BUTTON
+## WIRING WITH THE I2S MODULE, ESP32, THE ELECTRET MIC
+
+#### ----------------------GND MIC - GND I2S - GND ESP32 - GND BTN - LED RESISTOR - LED BUTTON
 ##
-### ----------------------5V ESP32 - 5V I2S - Resistor
+#### ----------------------5V ESP32 - 5V I2S - Resistor
 ##
-### ----------------------MIC (+) - ESP32 GPIO 36 (PIN VP) - Resistor  
+#### ----------------------MIC (+) - ESP32 GPIO 36 (PIN VP and corresponding to the CHANNEL_0) - Resistor  
 ##
-### ----------------------TX ESP32 - RX I2S Module
+#### ----------------------TX ESP32 - RX I2S Module
 ##
-### ----------------------RX ESP32 - TX I2S Module
+#### ----------------------RX ESP32 - TX I2S Module
 ##
-### ----------------------ESP32 GPIO 22 LED - RESISTOR  
+#### ----------------------ESP32 GPIO 22 LED - RESISTOR  
 ##
-### ----------------------ESP32 GPIO 15 BUTTON - RESISTOR 
+#### ----------------------ESP32 GPIO 15 BUTTON - RESISTOR 
 
 
 
